@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  ScrollView, 
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
   TouchableOpacity,
   Switch,
   Alert,
   Image,
-} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather } from '@expo/vector-icons';
-import { colors } from '../../constants/colors';
-import { fonts } from '../../constants/fonts';
-import { spacing } from '../../constants/spacing';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
+import { colors } from "../../constants/colors";
+import { fonts } from "../../constants/fonts";
+import { spacing } from "../../constants/spacing";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
   const router = useRouter();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  
+
   const handleClearData = () => {
     Alert.alert(
       "Clear All Data",
@@ -31,63 +31,70 @@ export default function ProfileScreen() {
       [
         {
           text: "Cancel",
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "Clear",
           style: "destructive",
           onPress: async () => {
             try {
-              await AsyncStorage.multiRemove(['tasks', 'habits', 'pomodoroSessions']);
+              await AsyncStorage.multiRemove([
+                "tasks",
+                "habits",
+                "pomodoroSessions",
+              ]);
               Alert.alert("Success", "All data has been cleared.");
             } catch (error) {
               Alert.alert("Error", "Failed to clear data. Please try again.");
             }
-          }
-        }
+          },
+        },
       ]
     );
   };
-  
+
   const handleNotificationToggle = (value: boolean) => {
     setNotificationsEnabled(value);
     // In a real app, we would handle notification permissions here
   };
-  
+
   const handleDarkModeToggle = (value: boolean) => {
     setDarkModeEnabled(value);
     // In a real app, we would apply the theme change
-    Alert.alert("Feature Coming Soon", "Dark mode will be available in the next update.");
+    Alert.alert(
+      "Feature Coming Soon",
+      "Dark mode will be available in the next update."
+    );
   };
-  
+
   const handleSoundToggle = (value: boolean) => {
     setSoundEnabled(value);
   };
-  
+
   const handleLogout = () => {
     // In a real app, we would handle logout logic
-    router.replace('/(onboarding)');
+    router.replace("/(onboarding)");
   };
-  
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <StatusBar style="dark" />
-      
+
       <View style={styles.header}>
         <Text style={styles.title}>Profile</Text>
       </View>
-      
+
       <ScrollView style={styles.content}>
         <View style={styles.profileSection}>
-          <Image 
-            source={{ 
-              uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=40' 
+          <Image
+            source={{
+              uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=40",
             }}
             style={styles.profileImage}
           />
           <Text style={styles.profileName}>John Doe</Text>
           <Text style={styles.profileEmail}>john.doe@example.com</Text>
-          
+
           <View style={styles.statsContainer}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>12</Text>
@@ -105,10 +112,10 @@ export default function ProfileScreen() {
             </View>
           </View>
         </View>
-        
+
         <View style={styles.settingsSection}>
           <Text style={styles.sectionTitle}>Settings</Text>
-          
+
           <View style={styles.settingItem}>
             <View style={styles.settingLabelContainer}>
               <Feather name="bell" size={20} color={colors.primary} />
@@ -121,7 +128,7 @@ export default function ProfileScreen() {
               thumbColor={colors.white}
             />
           </View>
-          
+
           <View style={styles.settingItem}>
             <View style={styles.settingLabelContainer}>
               <Feather name="moon" size={20} color={colors.primary} />
@@ -134,7 +141,7 @@ export default function ProfileScreen() {
               thumbColor={colors.white}
             />
           </View>
-          
+
           <View style={styles.settingItem}>
             <View style={styles.settingLabelContainer}>
               <Feather name="volume-2" size={20} color={colors.primary} />
@@ -148,9 +155,9 @@ export default function ProfileScreen() {
             />
           </View>
         </View>
-        
+
         <View style={styles.actionsSection}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.actionButton}
             onPress={handleClearData}
           >
@@ -159,18 +166,13 @@ export default function ProfileScreen() {
               Clear All Data
             </Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.actionButton}
-            onPress={handleLogout}
-          >
+
+          <TouchableOpacity style={styles.actionButton} onPress={handleLogout}>
             <Feather name="log-out" size={20} color={colors.text} />
-            <Text style={styles.actionButtonText}>
-              Log Out
-            </Text>
+            <Text style={styles.actionButtonText}>Log Out</Text>
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.aboutSection}>
           <Text style={styles.versionText}>Version 1.0.0</Text>
         </View>
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profileSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: spacing.xl,
   },
   profileImage: {
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   statsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.white,
     borderRadius: 12,
     padding: spacing.md,
@@ -231,11 +233,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    width: '80%',
+    width: "80%",
   },
   statItem: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   statValue: {
     fontFamily: fonts.heading,
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
   },
   statDivider: {
     width: 1,
-    height: '100%',
+    height: "100%",
     backgroundColor: colors.lightGray,
   },
   settingsSection: {
@@ -266,9 +268,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   settingItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: colors.white,
     borderRadius: 12,
     padding: spacing.md,
@@ -280,8 +282,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   settingLabelContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   settingLabel: {
     fontFamily: fonts.primary,
@@ -294,8 +296,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
   },
   actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.white,
     borderRadius: 12,
     padding: spacing.md,
@@ -313,7 +315,7 @@ const styles = StyleSheet.create({
     marginLeft: spacing.sm,
   },
   aboutSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingBottom: spacing.xxl,
   },
   versionText: {

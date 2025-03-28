@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  ScrollView, 
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
   TouchableOpacity,
   RefreshControl,
   Alert,
-} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather } from '@expo/vector-icons';
-import { colors } from '../../constants/colors';
-import { fonts } from '../../constants/fonts';
-import { spacing } from '../../constants/spacing';
-import { useHabitStore } from '../../store/habitStore';
-import HabitCard from '../../components/HabitCard';
-import EmptyState from '../../components/EmptyState';
-import { getToday } from '../../utils/dateUtils';
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
+import { colors } from "../../constants/colors";
+import { fonts } from "../../constants/fonts";
+import { spacing } from "../../constants/spacing";
+import { useHabitStore } from "../../store/habitStore";
+import HabitCard from "../../components/HabitCard";
+import EmptyState from "../../components/EmptyState";
+import { getToday } from "../../utils/dateUtils";
 
 export default function HabitsScreen() {
   const { habits, fetchHabits, addHabit, logHabitCompletion } = useHabitStore();
   const [refreshing, setRefreshing] = useState(false);
-  
+
   useEffect(() => {
     fetchHabits();
   }, []);
-  
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await fetchHabits();
     setRefreshing(false);
   };
-  
+
   const handleAddHabit = () => {
     Alert.prompt(
       "Add New Habit",
@@ -40,7 +40,7 @@ export default function HabitsScreen() {
       [
         {
           text: "Cancel",
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "Add",
@@ -52,32 +52,30 @@ export default function HabitsScreen() {
                 frequency: 7, // Default to daily
               });
             }
-          }
-        }
+          },
+        },
       ],
       "plain-text"
     );
   };
-  
+
   const handleToggleHabit = (id: string, completed: boolean) => {
     logHabitCompletion(id, getToday(), completed);
+    console.log("yes");
   };
-  
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <StatusBar style="dark" />
-      
+
       <View style={styles.header}>
         <Text style={styles.title}>My Habits</Text>
-        <TouchableOpacity 
-          style={styles.addButton}
-          onPress={handleAddHabit}
-        >
+        <TouchableOpacity style={styles.addButton} onPress={handleAddHabit}>
           <Feather name="plus" size={24} color={colors.white} />
         </TouchableOpacity>
       </View>
-      
-      <ScrollView 
+
+      <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -99,8 +97,8 @@ export default function HabitsScreen() {
           />
         ) : (
           <View style={styles.habitsList}>
-            {habits.map(habit => (
-              <HabitCard 
+            {habits.map((habit) => (
+              <HabitCard
                 key={habit.id}
                 habit={habit}
                 onToggleComplete={handleToggleHabit}
@@ -109,12 +107,9 @@ export default function HabitsScreen() {
           </View>
         )}
       </ScrollView>
-      
+
       <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.footerButton}
-          onPress={handleAddHabit}
-        >
+        <TouchableOpacity style={styles.footerButton} onPress={handleAddHabit}>
           <Feather name="plus" size={20} color={colors.white} />
           <Text style={styles.footerButtonText}>Add New Habit</Text>
         </TouchableOpacity>
@@ -129,9 +124,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
     paddingBottom: spacing.md,
@@ -147,8 +142,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -169,9 +164,9 @@ const styles = StyleSheet.create({
     borderTopColor: colors.lightGray,
   },
   footerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.primary,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
